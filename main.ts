@@ -4,7 +4,7 @@ input.onButtonPressed(Button.A, function () {
         . # . # #
         . # # . .
         . # . # .
-        # . . . .
+        # . . . #
         `)
 })
 control.onEvent(EventBusSource.MES_DPAD_CONTROLLER_ID, EventBusValue.MICROBIT_EVT_ANY, function () {
