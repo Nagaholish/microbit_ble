@@ -3,7 +3,7 @@ function 反時計回り回転する () {
 }
 function 前進する () {
     pins.digitalWritePin(DigitalPin.P13, 1)
-    pins.digitalWritePin(DigitalPin.P14, 1)
+    pins.digitalWritePin(DigitalPin.P14, 0)
 }
 bluetooth.onBluetoothConnected(function () {
     basic.showLeds(`
@@ -21,7 +21,7 @@ function 全停止する () {
     pins.digitalWritePin(DigitalPin.P16, 0)
 }
 function 後退する () {
-    pins.digitalWritePin(DigitalPin.P14, 1)
+    pins.digitalWritePin(DigitalPin.P14, 0)
     pins.digitalWritePin(DigitalPin.P13, 1)
 }
 control.onEvent(EventBusSource.MES_DPAD_CONTROLLER_ID, EventBusValue.MICROBIT_EVT_ANY, function () {
