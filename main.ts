@@ -13,7 +13,6 @@ bluetooth.onBluetoothConnected(function () {
         # # . # #
         . . . . .
         `)
-    basic.showIcon(IconNames.Heart)
 })
 function 全停止する () {
     pins.digitalWritePin(DigitalPin.P14, 0)
