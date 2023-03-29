@@ -1,5 +1,5 @@
 {
-    "name": "ゲームパッド-デモンストレーション",
+    "name": "フォロ制御",
     "description": "",
     "dependencies": {
         "core": "*",

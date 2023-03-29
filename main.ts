@@ -8,10 +8,10 @@ function 前進する () {
 bluetooth.onBluetoothConnected(function () {
     basic.showLeds(`
         . . . . .
-        # # . # #
         # # # # #
-        # # . # #
-        . . . . .
+        # . # . #
+        . # # # .
+        . # # # .
         `)
 })
 function 全停止する () {
@@ -60,4 +60,10 @@ lastValue = 0
 bluetooth.startLEDService()
 bluetooth.startAccelerometerService()
 bluetooth.startButtonService()
-basic.showIcon(IconNames.Asleep)
+basic.showLeds(`
+    . . . . .
+    . . . . .
+    # # # # #
+    . . # . .
+    . . . . .
+    `)
