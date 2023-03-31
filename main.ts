@@ -42,6 +42,10 @@ function 後退する () {
 control.onEvent(EventBusSource.MES_DPAD_CONTROLLER_ID, EventBusValue.MICROBIT_EVT_ANY, function () {
     if (lastValue != control.eventValue()) {
         lastValue = control.eventValue()
+        // A：前進
+        // B：後退
+        // 3：左回転
+        // 4：右回転
         if (control.eventValue() == 1) {
             前進する()
         } else if (control.eventValue() == 3) {
@@ -52,6 +56,7 @@ control.onEvent(EventBusSource.MES_DPAD_CONTROLLER_ID, EventBusValue.MICROBIT_EV
             時計回り回転する()
         } else {
             全停止する()
+            lastValue = 0
         }
     }
 })
@@ -61,6 +66,7 @@ function 時計回り回転する () {
 let 赤外線左 = 0
 let 赤外線右 = 0
 let lastValue = 0
+lastValue = 0
 bluetooth.startLEDService()
 bluetooth.startButtonService()
 pins.digitalWritePin(DigitalPin.P12, 1)
@@ -74,9 +80,11 @@ basic.showLeds(`
 basic.forever(function () {
     赤外線右 = pins.digitalReadPin(DigitalPin.P1)
     赤外線左 = pins.digitalReadPin(DigitalPin.P2)
-    if (赤外線右 == 1 || 赤外線左 == 1) {
-        後退する()
-    } else {
-        全停止する()
+    if (lastValue == 0) {
+        if (赤外線右 == 1 || 赤外線左 == 1) {
+            後退する()
+        } else {
+            全停止する()
+        }
     }
 })
