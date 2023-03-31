@@ -76,5 +76,7 @@ basic.forever(function () {
     赤外線左 = pins.digitalReadPin(DigitalPin.P2)
     if (赤外線右 == 1 || 赤外線左 == 1) {
         後退する()
+    } else {
+        全停止する()
     }
 })
