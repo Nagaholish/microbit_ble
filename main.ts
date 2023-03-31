@@ -61,9 +61,9 @@ function 時計回り回転する () {
 let 赤外線左 = 0
 let 赤外線右 = 0
 let lastValue = 0
-lastValue = 0
 bluetooth.startLEDService()
 bluetooth.startButtonService()
+pins.digitalWritePin(DigitalPin.P12, 1)
 basic.showLeds(`
     . . . . .
     . . . . .
