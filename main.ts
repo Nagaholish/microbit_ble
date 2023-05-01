@@ -1,10 +1,3 @@
-function 反時計回り回転する () {
-    pins.digitalWritePin(DigitalPin.P16, 1)
-}
-function 前進する () {
-    pins.digitalWritePin(DigitalPin.P13, 1)
-    pins.digitalWritePin(DigitalPin.P14, 0)
-}
 bluetooth.onBluetoothConnected(function () {
     basic.showLeds(`
         # . . . #
@@ -17,74 +10,50 @@ bluetooth.onBluetoothConnected(function () {
 bluetooth.onBluetoothDisconnected(function () {
     basic.showLeds(`
         . . . . .
-        . . . . .
+        . # . # .
         . . . . .
         # # # # #
         . # # # .
         `)
 })
 input.onButtonPressed(Button.A, function () {
-    music.playSoundEffect(music.builtinSoundEffect(soundExpression.giggle), SoundExpressionPlayMode.UntilDone)
+    control.raiseEvent(
+    EventBusSource.MICROBIT_ID_BUTTON_B,
+    EventBusValue.MICROBIT_EVT_ANY
+    )
 })
-function 全停止する () {
-    pins.digitalWritePin(DigitalPin.P14, 0)
-    pins.digitalWritePin(DigitalPin.P13, 0)
-    pins.digitalWritePin(DigitalPin.P15, 0)
-    pins.digitalWritePin(DigitalPin.P16, 0)
-}
+custom.onEvent(MyEnum.MyEventMES_4649, MyEnum.MyEventMES_4649, function () {
+    serial.writeLine("invoke-myevent_mes-4649")
+    serial.writeLine("" + (control.eventValue()))
+})
+custom.onEvent(MyEnum.MyEventMES_5963, MyEnum.MyEventMES_5963, function () {
+    serial.writeLine("invoke-myevent_mes-5963")
+    serial.writeLine("" + (control.eventValue()))
+})
+control.onEvent(EventBusSource.MES_DPAD_CONTROLLER_ID, EventBusValue.MES_DPAD_BUTTON_1_UP, function () {
+    serial.writeLine("receive-mes-dpad-evt-1up" + ("" + control.eventValue()))
+})
+control.onEvent(EventBusSource.MICROBIT_ID_BUTTON_B, EventBusValue.MICROBIT_BUTTON_EVT_DOWN, function () {
+    serial.writeLine("receive-button-b-evt-down " + ("" + control.eventValue()))
+})
+control.onEvent(EventBusSource.MICROBIT_ID_BUTTON_B, EventBusValue.MICROBIT_EVT_ANY, function () {
+    serial.writeLine("receive-button-b-evt-any " + ("" + control.eventValue()))
+})
 input.onButtonPressed(Button.B, function () {
-    music.playSoundEffect(music.builtinSoundEffect(soundExpression.mysterious), SoundExpressionPlayMode.UntilDone)
+    serial.writeLine("invoke-button-b")
+    serial.writeLine("" + (control.eventValue()))
 })
-function 後退する () {
-    pins.digitalWritePin(DigitalPin.P14, 1)
-    pins.digitalWritePin(DigitalPin.P13, 0)
-}
 control.onEvent(EventBusSource.MES_DPAD_CONTROLLER_ID, EventBusValue.MICROBIT_EVT_ANY, function () {
-    if (lastValue != control.eventValue()) {
-        lastValue = control.eventValue()
-        // A：前進
-        // B：後退
-        // 3：左回転
-        // 4：右回転
-        if (control.eventValue() == 1) {
-            前進する()
-        } else if (control.eventValue() == 3) {
-            後退する()
-        } else if (control.eventValue() == 13) {
-            反時計回り回転する()
-        } else if (control.eventValue() == 15) {
-            時計回り回転する()
-        } else {
-            全停止する()
-            lastValue = 0
-        }
-    }
+    serial.writeLine("receive-mes-dpad-evt-any " + ("" + control.eventValue()))
 })
-function 時計回り回転する () {
-    pins.digitalWritePin(DigitalPin.P15, 1)
-}
-let 赤外線左 = 0
-let 赤外線右 = 0
-let lastValue = 0
-lastValue = 0
-bluetooth.startLEDService()
-bluetooth.startButtonService()
-pins.digitalWritePin(DigitalPin.P12, 1)
+control.onEvent(EventBusSource.MICROBIT_ID_BUTTON_A, EventBusValue.MICROBIT_EVT_ANY, function () {
+    serial.writeLine("aaaaaaaaaaaa" + ("" + control.eventValue()))
+})
 basic.showLeds(`
     . . . . .
-    . . . . .
+    . . # . .
     # # # # #
     . . # . .
     . . . . .
     `)
-basic.forever(function () {
-    赤外線右 = pins.digitalReadPin(DigitalPin.P1)
-    赤外線左 = pins.digitalReadPin(DigitalPin.P2)
-    if (lastValue == 0) {
-        if (赤外線右 == 1 || 赤外線左 == 1) {
-            後退する()
-        } else {
-            全停止する()
-        }
-    }
-})
+serial.writeLine("microbit-boot")
