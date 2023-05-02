@@ -42,10 +42,14 @@ function 後退する () {
 control.onEvent(EventBusSource.MES_DPAD_CONTROLLER_ID, EventBusValue.MICROBIT_EVT_ANY, function () {
     if (lastValue != control.eventValue()) {
         lastValue = control.eventValue()
+        // 公式アプリのGAMEPAD
         // A：前進
         // B：後退
         // 3：左回転
         // 4：右回転
+        // 
+        // IDとEventは下記を参照する
+        // https://github.com/lancaster-university/microbit-dal/blob/master/inc/bluetooth/MESEvents.h#L94
         if (control.eventValue() == 1) {
             前進する()
         } else if (control.eventValue() == 3) {
